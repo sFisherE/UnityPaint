@@ -85,19 +85,7 @@ public class Painter : MonoBehaviour
         GUILayout.EndArea();
     }
     public float alpha=1;
-    Vector2 mPreDrag;
-    private Vector2 preDrag
-    {
-        set 
-        {
-            mPreDrag = value; 
-            if (mPreDrag.x<=0.1f)
-            {
-                Debug.Log(mPreDrag.ToString());
-            }
-        }
-        get { return mPreDrag; }
-    }
+    private Vector2 preDrag;
     public void Update()
     {
         Rect imgRect = new Rect(5 + 100, 5, baseTex.width * zoom, baseTex.height * zoom);
