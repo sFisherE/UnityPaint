@@ -5,6 +5,7 @@ using System.Collections;
 
 public class Painter : MonoBehaviour
 {
+    public Texture2D backTex;
     public Texture2D baseTex;
 
     private Vector2 dragStart;
@@ -76,10 +77,27 @@ public class Painter : MonoBehaviour
         }
 
         GUILayout.EndArea();
+        GUI.DrawTexture(new Rect(100, 0, baseTex.width * zoom, baseTex.height * zoom), backTex);
+        Color colPreviousGUIColor = GUI.color;
+        GUI.color = new Color(colPreviousGUIColor.r, colPreviousGUIColor.g, colPreviousGUIColor.b, alpha);
         GUI.DrawTexture(new Rect(100, 0, baseTex.width * zoom, baseTex.height * zoom), baseTex);
+        GUI.color = colPreviousGUIColor;
         GUILayout.EndArea();
     }
-    private Vector2 preDrag;
+    public float alpha=1;
+    Vector2 mPreDrag;
+    private Vector2 preDrag
+    {
+        set 
+        {
+            mPreDrag = value; 
+            if (mPreDrag.x<=0.1f)
+            {
+                Debug.Log(mPreDrag.ToString());
+            }
+        }
+        get { return mPreDrag; }
+    }
     public void Update()
     {
         Rect imgRect = new Rect(5 + 100, 5, baseTex.width * zoom, baseTex.height * zoom);
@@ -159,7 +177,6 @@ public class Painter : MonoBehaviour
                 dragEnd.y = imgRect.height - Mathf.Clamp(dragEnd.y, 0, imgRect.height);
                 dragEnd.x = Mathf.Round(dragEnd.x / zoom);
                 dragEnd.y = Mathf.Round(dragEnd.y / zoom);
-                Debug.Log("Draw Line");
                 Drawing.NumSamples = AntiAlias;
                 if (stroke.enabled)
                 {

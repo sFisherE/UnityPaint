@@ -180,16 +180,20 @@ public class Drawing : MonoBehaviour
                 dist = Mathfx.GaussFalloff(Mathf.Sqrt(dist), rad) * hardness;
                 //dist = (samples[i]-pos).sqrMagnitude;
                 Color c = Color.white;
-                if (dist > 0)
+                int index = (int)(y * lengthX + x);
+                //不能超过限度
+                index = Mathf.Min(pixels.Length - 1, index);
+                    if (dist > 0)
                 {
-                    c = Color.Lerp(pixels[(int)(y * lengthX + x)], col, dist);
+
+                    c = Color.Lerp(pixels[index], col, dist);
                 }
                 else
                 {
-                    c = pixels[(int)(y * lengthX + x)];
+                    c = pixels[index];
                 }
 
-                pixels[(int)(y * lengthX + x)] = c;
+                    pixels[index] = c;
             }
         }
         tex.SetPixels((int)start.x, (int)start.y, (int)lengthX, (int)lengthY, pixels, 0);
